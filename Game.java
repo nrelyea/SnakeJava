@@ -3,7 +3,7 @@ import java.awt.Color;
 import javax.swing.JFrame;
 
 public class Game extends JFrame {
-    private final static int WIDTH = 505, HEIGHT = 525, SQUARESIZE = 50;
+    private final static int WIDTH = 505, HEIGHT = 525, SQUARESIZE = 25;
     private GamePanel panel;
 
     public Game() {
@@ -23,6 +23,14 @@ public class Game extends JFrame {
     
     public int getSquareSize() {
     	return SQUARESIZE;
+    }
+    
+    public int getWindowWidth() {
+    	return WIDTH;
+    }
+    
+    public int getWindowHeight() {
+    	return WIDTH;
     }
 
     public static void main(String[] args) {

@@ -12,23 +12,39 @@ public class Snake {
     public Snake(Game game) {
         this.game = game;
         squareSize = game.getSquareSize();
-        x = 0;
-        y = 0;
-        direction = "down";
+        x = squareSize * 10;
+        y = squareSize * 10;
+        direction = "left";
     }
 
     public void update() {
-        if(direction == "down") {
-        	y += 50;
+    	//System.out.println("X: " + (x / squareSize) + " Y: " + (y / squareSize));
+    	
+        switch(direction) {
+        case "up":
+        	y -= squareSize;
+        	break;
+        case "down":
+        	y += squareSize;
+        	break;
+        case "left":
+        	x -= squareSize;
+        	break;
+        case "right":
+        	x += squareSize;
+        	break;        
         }
+        
+        
+        	
     }
     
     public void setDirection(String dir) {
     	this.direction = dir;
     }
-
-    public Rectangle getBounds() {
-        return new Rectangle(x, y, squareSize, squareSize);
+    
+    public String getDirection() {
+    	return direction;
     }
 
     public void paint(Graphics g) {
