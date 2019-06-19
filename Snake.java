@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 
 import java.awt.Rectangle;
@@ -12,19 +13,18 @@ public class Snake {
     private Game game;
     private String direction;
     private List<Point> snake = new ArrayList<Point>();
+    private Point prevTail;
+    private Color snakeColor;
 
     public Snake(Game game) {
         this.game = game;
         squareSize = game.getSquareSize();
         direction = "right";
-        snake.add(new Point(squareSize * 10, squareSize * 10));
-        snake.add(new Point(squareSize * 10 - 25, squareSize * 10));
-        snake.add(new Point(squareSize * 10 - 50, squareSize * 10));
-        snake.add(new Point(squareSize * 10 - 75, squareSize * 10));
-        snake.add(new Point(squareSize * 10 - 100, squareSize * 10));
-        snake.add(new Point(squareSize * 10 - 125, squareSize * 10));
-        snake.add(new Point(squareSize * 10 - 150, squareSize * 10));
-        snake.add(new Point(squareSize * 10 - 175, squareSize * 10));
+        snake.add(new Point(squareSize * 3, squareSize));
+        snake.add(new Point(squareSize * 3 - squareSize, squareSize));
+        snake.add(new Point(squareSize * 3 - (squareSize * 2), squareSize));
+        
+        snakeColor = Color.BLACK;
     }
 
     public void update(String newDirection) {
@@ -51,8 +51,13 @@ public class Snake {
         	break;        
         }
     	
+    	prevTail = snake.get(snake.size() - 1);
     	snake.remove(snake.size() - 1);    	    	
-    }    
+    }   
+    
+    public void growTail() {
+    	snake.add(prevTail);
+    }
     
     public void setDirection(String dir) {
     	this.direction = dir;
@@ -65,9 +70,16 @@ public class Snake {
     public List<Point> getSnakeInfo(){
     	return snake;
     }
+    
+    public void setColor(Color clr) {
+    	snakeColor = clr;
+    }
 
     public void paint(Graphics g) {
-    	for(int i = 0; i < snake.size(); i++) {
+    	g.setColor(Color.DARK_GRAY);
+    	g.fillRect(snake.get(0).x, snake.get(0).y, squareSize, squareSize);
+    	g.setColor(snakeColor);
+    	for(int i = 1; i < snake.size(); i++) {
     		g.fillRect(snake.get(i).x, snake.get(i).y, squareSize, squareSize);
     	}
         
