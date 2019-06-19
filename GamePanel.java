@@ -6,7 +6,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -16,7 +18,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     private Game game;
     private Timer timer = new Timer(1000, this);
     private boolean gameActive;
-    private List<String> moveList = new ArrayList<String>();
+    private LinkedList<String> moveQueue = new LinkedList<>();
 
     public GamePanel(Game game) {
     	this.game = game;
@@ -32,7 +34,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     }
 
     private void update() {
-        snake.update();
+    	
+    	String newDirection = null;
+    	if(!moveQueue.isEmpty()) {
+    		newDirection = moveQueue.remove();
+    	}
+        snake.update(newDirection);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -42,22 +49,22 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
     public void keyPressed(KeyEvent e) {
     	
-        if((e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) && ((!moveList.isEmpty() && moveList.get(moveList.size() - 1) != "up") || moveList.isEmpty())) {
-        	moveList.add("up");        	
+        if((e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) && ((!moveQueue.isEmpty() && moveQueue.getLast() != "up" && moveQueue.getLast() != "down") || (moveQueue.isEmpty() && snake.getDirection() != "down"))) {
+        	moveQueue.offer("up");        	
         }
-        else if((e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) && ((!moveList.isEmpty() && moveList.get(moveList.size() - 1) != "down") || moveList.isEmpty())) {
-        	moveList.add("down");
+        else if((e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) && ((!moveQueue.isEmpty() && moveQueue.getLast() != "down"  && moveQueue.getLast() != "up") ||(moveQueue.isEmpty() && snake.getDirection() != "up"))) {
+        	moveQueue.offer("down");        	
         }
-        else if((e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) && ((!moveList.isEmpty() && moveList.get(moveList.size() - 1) != "right") || moveList.isEmpty())) {
-        	moveList.add("right");
+        else if((e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) && ((!moveQueue.isEmpty() && moveQueue.getLast() != "left"  && moveQueue.getLast() != "right") ||(moveQueue.isEmpty() && snake.getDirection() != "right"))) {
+        	moveQueue.offer("left");        	
         }
-        else if((e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) && ((!moveList.isEmpty() && moveList.get(moveList.size() - 1) != "left") || moveList.isEmpty())) {
-        	moveList.add("left");
+        else if((e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) && ((!moveQueue.isEmpty() && moveQueue.getLast() != "right"  && moveQueue.getLast() != "left") ||(moveQueue.isEmpty() && snake.getDirection() != "left"))) {
+        	moveQueue.offer("right");        	
         }
       
         System.out.print("\nMove List: ");
-    	for(int i = 0; i < moveList.size(); i++) {
-    		System.out.print(moveList.get(i) + ", ");
+    	for(int i = 0; i < moveQueue.size(); i++) {
+    		System.out.print(moveQueue.get(i) + ", ");
     	}
         
     	

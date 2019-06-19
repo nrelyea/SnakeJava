@@ -14,13 +14,18 @@ public class Snake {
         squareSize = game.getSquareSize();
         x = squareSize * 10;
         y = squareSize * 10;
-        direction = "left";
+        direction = "right";
     }
 
-    public void update() {
-    	//System.out.println("X: " + (x / squareSize) + " Y: " + (y / squareSize));
+    public void update(String newDirection) {
+    	//System.out.println("X: " + (x / squareSize) + " Y: " + (y / squareSize));    	   	
     	
-        switch(direction) {
+    	System.out.println("newDirection: ");
+    	
+    	if(newDirection != null) {
+    		direction = newDirection;    		
+    	}
+    	switch(direction) {
         case "up":
         	y -= squareSize;
         	break;
@@ -34,9 +39,6 @@ public class Snake {
         	x += squareSize;
         	break;        
         }
-        
-        
-        	
     }
     
     public void setDirection(String dir) {
