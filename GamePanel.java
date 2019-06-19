@@ -16,7 +16,7 @@ import javax.swing.Timer;
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
     private Snake snake;
     private Game game;
-    private Timer timer = new Timer(1000, this);
+    private Timer timer = new Timer(50, this);
     private boolean gameActive;
     private LinkedList<String> moveQueue = new LinkedList<>();
 
@@ -60,13 +60,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         }
         else if((e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) && ((!moveQueue.isEmpty() && moveQueue.getLast() != "right"  && moveQueue.getLast() != "left") ||(moveQueue.isEmpty() && snake.getDirection() != "left"))) {
         	moveQueue.offer("right");        	
-        }
-      
-        System.out.print("\nMove List: ");
-    	for(int i = 0; i < moveQueue.size(); i++) {
-    		System.out.print(moveQueue.get(i) + ", ");
-    	}
-        
+        }                     
     	
     	//endGame();
         
