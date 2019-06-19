@@ -16,14 +16,17 @@ import javax.swing.Timer;
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
     private Snake snake;
     private Game game;
-    private Timer timer = new Timer(50, this);
+    private Timer timer;
     private boolean gameActive;
     private LinkedList<String> moveQueue = new LinkedList<>();
+    
+    private int gameSpeed = 50;
 
     public GamePanel(Game game) {
     	this.game = game;
+    	timer = new Timer(gameSpeed, this);
     	
-        setBackground(Color.WHITE);
+        setBackground(Color.LIGHT_GRAY);
         snake = new Snake(game);
         
         timer.start();
@@ -44,6 +47,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
     public void actionPerformed(ActionEvent e) {
         update();
+        
+        if(snake.getSnakeInfo().get(0).x < 0 || snake.getSnakeInfo().get(0).x > game.getWindowWidth() - game.getSquareSize() || snake.getSnakeInfo().get(0).y < 0 || snake.getSnakeInfo().get(0).y > game.getWindowHeight() - game.getSquareSize()) {
+    		endGame();
+    	}
+        
         repaint();
     }
 
@@ -60,9 +68,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         }
         else if((e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) && ((!moveQueue.isEmpty() && moveQueue.getLast() != "right"  && moveQueue.getLast() != "left") ||(moveQueue.isEmpty() && snake.getDirection() != "left"))) {
         	moveQueue.offer("right");        	
-        }                     
-    	
-    	//endGame();
+        }
+        
+        if(!gameActive && e.getKeyCode() == KeyEvent.VK_R) {
+        	Game newGame = new Game();
+        }
         
     }
 
@@ -86,6 +96,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         snake.paint(g);
         if(!gameActive) {
             System.out.println("ending game");
+            g.setColor(Color.WHITE);
+            g.fillRect(game.getWindowWidth() / 2 - 130, game.getWindowHeight() / 2 - 30, 252, 32);
+            g.setColor(Color.BLACK);
             g.setFont(new Font("TimesRoman", Font.BOLD, 40)); 
         	g.drawString("GAME OVER", game.getWindowWidth() / 2 - 130, game.getWindowHeight() / 2);
         }

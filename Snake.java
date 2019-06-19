@@ -51,7 +51,7 @@ public class Snake {
         	break;        
         }
     	
-    	snake.remove(snake.size() - 1);
+    	snake.remove(snake.size() - 1);    	    	
     }    
     
     public void setDirection(String dir) {
@@ -60,6 +60,10 @@ public class Snake {
     
     public String getDirection() {
     	return direction;
+    }
+    
+    public List<Point> getSnakeInfo(){
+    	return snake;
     }
 
     public void paint(Graphics g) {

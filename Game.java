@@ -9,7 +9,7 @@ public class Game extends JFrame {
     public Game() {
         setSize(WIDTH, HEIGHT);
         setTitle("Snake Boi");
-        setBackground(Color.WHITE);
+        setBackground(Color.RED);
         setResizable(false);
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
